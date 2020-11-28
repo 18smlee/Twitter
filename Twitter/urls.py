@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from twitterApp.views import test
+from twitterApp.views import hashtag, home, login_signup, profile, splash
 
 # links URL to view
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', test, name="splash")
+    path('', home, name="home"),
+    path('hashtag', hashtag, name="hashtag"),
+    path('login', login_signup, name="login_signup"),
+    path('profile', profile, name="profile"),
+    path('splash', splash, name="splash")
 ]
