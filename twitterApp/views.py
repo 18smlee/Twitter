@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from twitterApp.models import Tweet
@@ -32,7 +34,6 @@ def login_view(request):
         return redirect('accounts_view')
 
 def signup_view(request):
-    print(request.POST['username'], request.POST['password'], request.POST['email'])
     user = User.objects.create_user(
         username=request.POST['username'],
         password=request.POST['password'],
@@ -45,8 +46,9 @@ def logout_view(request):
     logout(request)
     return redirect('accounts_view')
 
-def profile_view(request):
-    return render(request, 'profile.html', {})
+def profile_view(request, username):
+    user = User.objects.get(username=username)
+    return render(request, 'profile.html', {'user': user})
 
 def splash_view(request):
     return render(request, 'splash.html', {})
