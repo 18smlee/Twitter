@@ -41,7 +41,7 @@
           {% for tweet in tweets %}
             <div class="card mb-3">
               <div class="card-body">
-                <h5><a class="text-dark" href="/profile/">{{tweet.author}}</a></h5>
+                <h5><a class="text-dark" href="/profile/">@{{tweet.author}}</a></h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{tweet.timeStamp}}</h6>
                 <p class="card-text">{{tweet.body}}</p>
               </div>
