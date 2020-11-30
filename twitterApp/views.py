@@ -16,7 +16,14 @@ def accounts_view(request):
     return render(request, 'accounts.html', {})
     
 def login_view(request):
-    pass
+    username, password = request.POST['username'], request.POST['password']
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        login(request, user)
+        return redirect('home_view')
+    else:
+        return redirect('accounts_view')
 
 def signup_view(request):
     print(request.POST['username'], request.POST['password'], request.POST['email'])
@@ -25,12 +32,12 @@ def signup_view(request):
         password=request.POST['password'],
         email=request.POST['email']
         )
-
     login(request, user)
-    return redirect('/')
+    return redirect('home_view')
 
 def logout_view(request):
-    pass
+    logout(request)
+    return redirect('accounts_view')
 
 def profile_view(request):
     return render(request, 'profile.html', {})

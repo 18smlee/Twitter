@@ -20,12 +20,14 @@ from twitterApp.views import hashtag_view, home_view, accounts_view, login_view,
 # links URL to view
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_view, name="home_view"),
-    path('hashtag/', hashtag_view, name="hashtag_view"),
-    path('accounts/', accounts_view, name="accounts_view"),
+    path('', accounts_view, name="accounts_view"),
+    path('home/', home_view, name="home_view"),
+
     path('login/', login_view, name="login_view"),
     path('signup/', signup_view, name="signup_view"),
-    path('login/', logout_view, name="logout_view"),
+    path('logout/', logout_view, name="logout_view"),
+
     path('profile/', profile_view, name="profile_view"),
+    path('hashtag/', hashtag_view, name="hashtag_view"),
     path('splash/', splash_view, name="splash_view")
 ]
