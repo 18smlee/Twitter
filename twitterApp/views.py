@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from twitterApp.models import Tweet
+from twitterApp.models import Tweet, Hashtag
+import re
 
 # Create your views here.
 
@@ -11,10 +12,17 @@ def hashtag_view(request):
     return render(request, 'hashtag.html', {})
 
 def home_view(request):
+
     if request.method == 'POST':
+        # parsing through tweet body to create hashtags
+        tweetBody = request.POST['tweetBody']
+        tweetTags = re.findall(r"#(\w+)", tweetBody)
+        for tag in tweetTags:
+            Hashtag.objects.create(title=tag)
+
         tweet = Tweet.objects.create(
             author=request.user,
-            body=request.POST['tweetBody']
+            body=tweetBody
         )
 
     tweets = Tweet.objects.all()
@@ -48,7 +56,14 @@ def logout_view(request):
 
 def profile_view(request, username):
     user = User.objects.get(username=username)
-    return render(request, 'profile.html', {'user': user})
+    tweets = Tweet.objects.all()
+    userTweets = []
+
+    for tweet in tweets:
+        if tweet.author == user:
+            userTweets.append(tweet)
+
+    return render(request, 'profile.html', {'user': user, 'userTweets': userTweets})
 
 def splash_view(request):
     return render(request, 'splash.html', {})
