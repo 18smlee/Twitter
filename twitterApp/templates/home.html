@@ -18,26 +18,45 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Home Page</h1>
-            <a class="btn btn-primary" href="http://127.0.0.1:8000/" role="button">Logout</a>
+      <div class="row justify-content-between">
+        <div class="col-4 mt-3">
+          <h1>My Feed</h1>
         </div>
-
-        <div class="row">
-          {% for tweet in tweets %}
-          <div class="col-md-4">
-            <div class="card-body">
-              <h5 class="card-title"> {{tweet.username}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">{{tweet.body}}</p>
-              <a href="#" class="card-link">Card link</a>
-            </div>
-          </div>
-          {% endfor %}
-
+        <div class="col-4">
+          <a class="btn btn-primary mt-3 float-right" href="http://127.0.0.1:8000/" role="button">Logout</a>
         </div>
       </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+
+          <form method="POST" action="/home/">
+            {% csrf_token %}
+            <input name="tweetBody" class="form-control" placeholder="What's on your mind?">
+            <input class="btn btn-primary m-2 mb-4" type="submit" value='Tweet'>
+          </form>
+
+          {% for tweet in tweets %}
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5><a class="text-dark" href="/profile/">{{tweet.author}}</a></h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{tweet.timeStamp}}</h6>
+                <p class="card-text">{{tweet.body}}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+          
+        <div class="col-4">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-header">Hashtags</h5>
+              <p class="card-text">asdfasdfas</p>
+            </div>
+          </div>
+        </div>
     </div>
 
   </body>

@@ -9,6 +9,12 @@ def hashtag_view(request):
     return render(request, 'hashtag.html', {})
 
 def home_view(request):
+    if request.method == 'POST':
+        tweet = Tweet.objects.create(
+            author=request.user,
+            body=request.POST['tweetBody']
+        )
+
     tweets = Tweet.objects.all()
     return render(request, 'home.html', {'tweets': tweets})
 
