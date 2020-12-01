@@ -44,6 +44,11 @@
                 <h5><a class="text-dark" href="{% url 'profile_view' tweet.author%}">@{{tweet.author}}</a></h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{tweet.timeStamp}}</h6>
                 <p class="card-text">{{tweet.body}}</p>
+                <form method="POST" action="{% url 'like_view' tweet.id%}">
+                  {% csrf_token %}
+                  <button class="btn btn-primary sm-4" type="submit" name="tweet_ID" value='{{ tweet.id }}'> Like </button>
+                </form>
+                <p class="card-text m-2 mb-0 text-muted">{{tweet.total_likes}} Likes</p>
               </div>
             </div>
           {% endfor %}

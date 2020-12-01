@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -14,9 +14,17 @@ def hashtag_view(request, tagTitle):
     print("tweets with this tag", tweetsWithTag)
     return render(request, 'hashtag.html', {'hashtag': hashtag, 'tweetsWithTag': tweetsWithTag})
 
+def like_view(request, tweetID):
+    tweet = Tweet.objects.get(id=tweetID)
+    tweet.likes.add(request.user) 
+    return redirect('home_view')
+
 def home_view(request):
     hashtags = Hashtag.objects.all()
     tweets = Tweet.objects.all()
+    for tweet in tweets:
+        print(tweet.body)
+        print(tweet.total_likes())
 
     hashtagTitles =[]
     for hashtag in hashtags:
@@ -32,7 +40,6 @@ def home_view(request):
         tweetTags = re.findall(r"#(\w+)", tweetBody)
         for tag in tweetTags:
             if tag not in hashtagTitles:
-                print(tag, "not in ", hashtags)
                 newTag = Hashtag.objects.create(title=tag)
                 tweet.tags.add(newTag)
             else:

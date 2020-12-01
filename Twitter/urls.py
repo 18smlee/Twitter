@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from twitterApp.views import hashtag_view, home_view, accounts_view, login_view, signup_view, logout_view, profile_view, splash_view
+from twitterApp.views import hashtag_view, home_view, like_view, accounts_view, login_view, signup_view, logout_view, profile_view, splash_view
 
 # links URL to view
 urlpatterns = [
@@ -27,6 +27,7 @@ urlpatterns = [
     path('signup/', signup_view, name="signup_view"),
     path('logout/', logout_view, name="logout_view"),
 
+    path('like/<tweetID>/', like_view, name="like_view"),
     path('hashtag/<tagTitle>/', hashtag_view, name="hashtag_view"),
     path('profile/<username>/', profile_view, name="profile_view"),
     path('splash/', splash_view, name="splash_view")
