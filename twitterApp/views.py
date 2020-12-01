@@ -36,7 +36,8 @@ def home_view(request):
                 newTag = Hashtag.objects.create(title=tag)
                 tweet.tags.add(newTag)
             else:
-                tweet.tags.add(tag)
+                existingTag = Hashtag.objects.get(title=tag)
+                tweet.tags.add(existingTag)
         
     return render(request, 'home.html', {'tweets': tweets, 'hashtags': hashtags})
 
