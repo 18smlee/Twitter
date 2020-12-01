@@ -6,10 +6,7 @@ class Tweet(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     timeStamp = models.DateTimeField(auto_now=True)
-    tag = models.ManyToManyField('Hashtag', blank=True)
-
-    def __str__(self):
-        return self.author + "'s tweet"
+    tags = models.ManyToManyField('Hashtag', blank=True)
 
 class Hashtag(models.Model):
     title = models.CharField(max_length=20)

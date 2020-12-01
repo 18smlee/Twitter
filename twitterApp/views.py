@@ -8,25 +8,37 @@ import re
 
 # Create your views here.
 
-def hashtag_view(request):
-    return render(request, 'hashtag.html', {})
+def hashtag_view(request, tagTitle):
+    hashtag = Hashtag.objects.get(title=tagTitle)
+    tweetsWithTag = Tweet.objects.filter(tags__title=hashtag.title)
+    print("tweets with this tag", tweetsWithTag)
+    return render(request, 'hashtag.html', {'hashtag': hashtag, 'tweetsWithTag': tweetsWithTag})
 
 def home_view(request):
+    hashtags = Hashtag.objects.all()
+    tweets = Tweet.objects.all()
 
+    hashtagTitles =[]
+    for hashtag in hashtags:
+        hashtagTitles.append(hashtag.title)
+    
     if request.method == 'POST':
-        # parsing through tweet body to create hashtags
-        tweetBody = request.POST['tweetBody']
-        tweetTags = re.findall(r"#(\w+)", tweetBody)
-        for tag in tweetTags:
-            Hashtag.objects.create(title=tag)
-
         tweet = Tweet.objects.create(
             author=request.user,
-            body=tweetBody
+            body=request.POST['tweetBody']
         )
-
-    tweets = Tweet.objects.all()
-    return render(request, 'home.html', {'tweets': tweets})
+        # parsing through tweet body to create hashtags
+        tweetBody = tweet.body
+        tweetTags = re.findall(r"#(\w+)", tweetBody)
+        for tag in tweetTags:
+            if tag not in hashtagTitles:
+                print(tag, "not in ", hashtags)
+                newTag = Hashtag.objects.create(title=tag)
+                tweet.tags.add(newTag)
+            else:
+                tweet.tags.add(tag)
+        
+    return render(request, 'home.html', {'tweets': tweets, 'hashtags': hashtags})
 
 def accounts_view(request):
     return render(request, 'accounts.html', {})

@@ -27,7 +27,7 @@ urlpatterns = [
     path('signup/', signup_view, name="signup_view"),
     path('logout/', logout_view, name="logout_view"),
 
+    path('hashtag/<tagTitle>/', hashtag_view, name="hashtag_view"),
     path('profile/<username>/', profile_view, name="profile_view"),
-    path('hashtag/', hashtag_view, name="hashtag_view"),
     path('splash/', splash_view, name="splash_view")
 ]

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from twitterApp.models import Tweet
+from twitterApp.models import Tweet, Hashtag
 
 # Register your models here.
 admin.site.register(Tweet)
+admin.site.register(Hashtag)
